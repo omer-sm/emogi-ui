@@ -12,12 +12,15 @@ function App() {
   const [isInGame, setIsInGame] = React.useState(false)
   const [playerName, setPlayerName] = React.useState("")
   const joinGame = () => {
-    fetch(serverAddress, {
+    fetch(serverAddress + "/join-lobby", {
       method: 'POST',
-      body: JSON.stringify({})
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({name: playerName, lobby_id: gameId, ip: "0.0.0.0"})
     }).then(r => r.json()).then(r => {
-
-    })
+      console.log(r)
+    }).catch(err => console.error(err))
     //try join game, then if good:
     setIsInGame(true)
     //else
@@ -27,7 +30,7 @@ function App() {
   return (
     <Sheet height="100vh" width="100vw">
       {isInGame ? <GameScreen activePlayer={2} thisPlayer={2}/> :
-       <JoinGameScreen gameId={gameId} isInGame={isInGame}
+       <JoinGameScreen gameId={gameId} setGameId={setGameId} isInGame={isInGame}
         joinGame={joinGame} playerName={playerName} setPlayerName={setPlayerName} />}
     </Sheet>
   );
