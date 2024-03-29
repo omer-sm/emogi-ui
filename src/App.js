@@ -17,21 +17,29 @@ function App() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({name: playerName, lobby_id: gameId, ip: "0.0.0.0"})
+      body: JSON.stringify({name: playerName, lobby_id: gameId})
     }).then(r => r.json()).then(r => {
-      console.log(r)
-    }).catch(err => console.error(err))
-    //try join game, then if good:
-    setIsInGame(true)
-    //else
-    alert("Whooopsie! Can't join game, lobby might be full.")
+      setIsInGame(true)
+    }).catch(err => alert("Whoooopsie! " + err.error ? err.error : err))
   }
-  
+  const createGame = () => {
+    fetch(serverAddress + "/create-lobby", {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({name: playerName})
+    }).then(r => r.json()).then(r => {
+      alert("Your game has been created! Your ID is " + r.id + ". Send this to your friends!")
+      setIsInGame(true)
+    }).catch(err => alert("Whoooopsie! " + err.error ? err.error : err))
+  }
   return (
     <Sheet height="100vh" width="100vw">
       {isInGame ? <GameScreen activePlayer={2} thisPlayer={2}/> :
        <JoinGameScreen gameId={gameId} setGameId={setGameId} isInGame={isInGame}
-        joinGame={joinGame} playerName={playerName} setPlayerName={setPlayerName} />}
+        joinGame={joinGame} playerName={playerName} createGame={createGame}
+         setPlayerName={setPlayerName} />}
     </Sheet>
   );
 }

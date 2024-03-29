@@ -8,7 +8,7 @@ import Stack from '@mui/joy/Stack'
 export default function JoinGameScreen({ gameId, setGameId, joinGame, createGame, playerName, setPlayerName }) {
     return (
         <div style={{ height: "50vh", display: "flex", justifyContent: "center", alignContent: "center" }}>
-            <Card maxHeight="10rem">
+            <Card sx={{maxHeight: "10rem"}}>
                 <Stack gap={1} alignItems="center">
                     <Typography level="h2">Welcome to Emogi!</Typography>
                     <Stack direction="row">
